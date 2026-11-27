@@ -50,8 +50,8 @@ function Entrar({ onEntrar }) {
   )
 }
 
-// Achica la foto en el navegador antes de subirla (máx. 1600 px, WebP) para ocupar poco espacio.
-async function achicarFoto(archivo, lado = 1600) {
+// Achica la foto en el navegador antes de subirla (máx. 1200 px, WebP) para ocupar poco espacio.
+async function achicarFoto(archivo, lado = 1200) {
   try {
     const imagen = await createImageBitmap(archivo)
     const escala = Math.min(1, lado / Math.max(imagen.width, imagen.height))

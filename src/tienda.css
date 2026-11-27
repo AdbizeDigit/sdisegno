@@ -1481,22 +1481,6 @@ video {
       }
     }
 
-    /* Aparición genérica */
-    .aparece {
-      animation: aparecer linear both;
-      animation-timeline: view();
-      animation-range: entry 0% entry 70%;
-    }
-    @keyframes aparecer {
-      from {
-        opacity: 0;
-        transform: translateY(60px);
-      }
-    }
-    .comprar-item.aparece {
-      animation-range: entry calc(var(--n) * 6%) entry calc(60% + var(--n) * 6%);
-    }
-
     /* Ventana: el video se abre desde un círculo */
     .ventana {
       height: 240vh;
@@ -1518,16 +1502,10 @@ video {
       animation-timeline: --ventana;
       animation-range: contain 45% contain 75%;
     }
-
-    /* Manifiesto: cada palabra se tiñe al pasar */
-    .tinta {
-      animation: tenir linear both;
-      animation-timeline: view();
-      animation-range: cover 18% cover 42%;
-    }
-    @keyframes tenir {
+    @keyframes aparecer {
       from {
-        opacity: 0.14;
+        opacity: 0;
+        transform: translateY(60px);
       }
     }
 
@@ -1587,53 +1565,48 @@ video {
       }
     }
 
-    /* Pilares: la foto se acerca mientras la tarjeta sube */
-    .pilar-foto img {
-      animation: acercar linear both;
-      animation-timeline: view();
-      animation-range: entry 0% cover 60%;
-    }
-    @keyframes acercar {
-      from {
-        transform: scale(1.25);
-      }
-    }
-
-    /* Rediseño: paralaje del video dentro del arco */
-    .rediseno-video {
-      animation: paralaje linear both;
-      animation-timeline: view();
-    }
-    @keyframes paralaje {
-      from {
-        transform: translateY(-6%);
-      }
-      to {
-        transform: translateY(6%);
-      }
-    }
-
-
-    /* Historia: la foto se revela de abajo hacia arriba */
-    .historia-foto img {
-      animation: acercar linear both;
-      animation-timeline: view();
-      animation-range: entry 0% cover 50%;
-    }
-
-    /* Pie: las letras suben una por una */
-    .pie-marca span {
-      animation: letra linear both;
-      animation-timeline: view();
-      animation-range: entry calc(var(--n) * 3%) entry calc(40% + var(--n) * 3%);
-    }
-    @keyframes letra {
-      from {
-        transform: translateY(70%);
-        opacity: 0;
-      }
-    }
   }
+}
+
+/* ═══ Apariciones al entrar en pantalla (una sola vez) ════
+   Se activan con una clase desde JS (IntersectionObserver):
+   no se recalculan en cada cuadro del scroll. */
+.animar .aparece {
+  opacity: 0;
+  transform: translateY(48px);
+  transition: opacity 0.9s var(--curva), transform 0.9s var(--curva);
+  transition-delay: calc(var(--n, 0) * 90ms);
+}
+.animar .aparece.visto {
+  opacity: 1;
+  transform: none;
+}
+.animar .tinta {
+  opacity: 0.14;
+  transition: opacity 0.7s ease;
+  transition-delay: calc(var(--i) * 35ms);
+}
+.animar .manifiesto-texto.visto .tinta {
+  opacity: 1;
+}
+.animar .historia-foto img,
+.animar .pilar-foto img {
+  transform: scale(1.15);
+  transition: transform 1.4s var(--curva);
+}
+.animar .historia-foto.visto img,
+.animar .pilar-foto.visto img {
+  transform: none;
+}
+.animar .pie-marca span {
+  opacity: 0;
+  transform: translateY(60%);
+  transition: opacity 0.8s var(--curva), transform 0.8s var(--curva);
+  transition-delay: calc(var(--n) * 60ms);
+}
+.animar .pie-marca.visto span {
+  opacity: 1;
+  transform: none;
 }
 
 /* Hilo visible solo en pantallas anchas */

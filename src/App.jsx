@@ -79,6 +79,23 @@ export default function App() {
     if (!cargando && !errorCarga) setItems((actual) => actual.filter((i) => productos.some((p) => p.id === i.id)))
   }, [cargando, errorCarga, productos])
 
+  // Apariciones: cada elemento se anima una sola vez al entrar en pantalla.
+  useEffect(() => {
+    if (QUIETO || !('IntersectionObserver' in window)) return
+    document.documentElement.classList.add('animar')
+    const obs = new IntersectionObserver(
+      (entradas) => entradas.forEach((e) => {
+        if (e.isIntersecting) {
+          e.target.classList.add('visto')
+          obs.unobserve(e.target)
+        }
+      }),
+      { rootMargin: '0px 0px -12% 0px' },
+    )
+    document.querySelectorAll('.aparece, .manifiesto-texto, .historia-foto, .pilar-foto, .pie-marca').forEach((el) => obs.observe(el))
+    return () => obs.disconnect()
+  }, [])
+
   // La barra se esconde al bajar y vuelve al subir.
   useEffect(() => {
     let ultimo = window.scrollY
@@ -226,7 +243,7 @@ export default function App() {
         <section id="marca" className="manifiesto envoltura">
           <p className="rotulo">{SECCIONES.experiencias.etiqueta}</p>
           <p className="manifiesto-texto">
-            {palabras.map((p, i) => <span key={i} className="tinta">{p} </span>)}
+            {palabras.map((p, i) => <span key={i} className="tinta" style={{ '--i': i }}>{p} </span>)}
           </p>
         </section>
 
