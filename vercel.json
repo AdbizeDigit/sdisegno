@@ -1,0 +1,12 @@
+{
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "framework": "vite",
+  "buildCommand": "vite build",
+  "outputDirectory": "dist",
+  "rewrites": [
+    { "source": "/api/:ruta*", "destination": "/api" },
+    { "source": "/fotos/:archivo", "destination": "/api" },
+    { "source": "/admin", "destination": "/index.html" },
+    { "source": "/admin/:ruta*", "destination": "/index.html" }
+  ]
+}

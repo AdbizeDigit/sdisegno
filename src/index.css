@@ -1,0 +1,69 @@
+:root {
+  /* Los colores se cargan desde src/marca.js (COLORES). */
+  --titulos: 'Cormorant Garamond', system-ui, sans-serif;
+  --textos: 'Montserrat', system-ui, sans-serif;
+
+  font-family: var(--textos);
+  color: var(--tinta);
+  background: var(--fondo);
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 80px;
+}
+
+body {
+  margin: 0;
+  background: var(--fondo);
+}
+
+h1,
+h2,
+h3 {
+  font-family: var(--titulos);
+  font-weight: 600;
+  line-height: 1;
+  margin: 0;
+}
+
+p {
+  margin: 0;
+}
+
+a {
+  color: inherit;
+}
+
+button {
+  font: inherit;
+  cursor: pointer;
+}
+
+:focus-visible {
+  outline: 3px solid var(--resalte);
+  outline-offset: 3px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+}
+
+/* sdisegno: títulos en Cormorant Garamond itálica */
+h1,
+h2,
+h3 {
+  font-style: italic;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+}

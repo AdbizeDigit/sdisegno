@@ -1,0 +1,25 @@
+{
+  "name": "sdisegno",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "concurrently -n web,api -c blue,magenta \"vite\" \"npm:servidor\"",
+    "servidor": "node --env-file=.env --watch server/index.js",
+    "build": "vite build",
+    "start": "node --env-file=.env server/index.js",
+    "preview": "vite preview"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-react": "^6.3.0",
+    "concurrently": "^9.1.2",
+    "vite": "^8.3.6"
+  },
+  "dependencies": {
+    "@vercel/blob": "^2.9.0",
+    "express": "^4.21.2",
+    "multer": "^2.0.2",
+    "react": "^19.3.1",
+    "react-dom": "^19.3.1"
+  }
+}
