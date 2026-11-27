@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useRef, useState } from 'react'
+import { Fragment, useCallback, useEffect, useRef, useState } from 'react'
 import { flushSync } from 'react-dom'
 import Icono from './components/Icono.jsx'
 import Logo from './components/Logo.jsx'
@@ -38,9 +38,12 @@ function TituloCinetico({ lineas }) {
       {lineas.map((linea, l) => (
         <span key={l} className="portada-linea" aria-hidden="true">
           {linea.split(' ').map((palabra, p) => (
-            <span key={p} className="mascara">
-              <span className="sube" style={{ '--d': `${120 + i++ * 90}ms` }}>{palabra}</span>
-            </span>
+            <Fragment key={p}>
+              {p > 0 && ' '}
+              <span className="mascara">
+                <span className="sube" style={{ '--d': `${120 + i++ * 90}ms` }}>{palabra}</span>
+              </span>
+            </Fragment>
           ))}
         </span>
       ))}
@@ -183,44 +186,48 @@ export default function App() {
       <main>
         {/* ── Portada ── */}
         <section id="inicio" className="portada">
-          <div className="portada-texto envoltura">
-            <p className="portada-marca entra" style={{ '--d': '0ms' }}>
-              <span className="portada-palabra">{MARCA.nombre}</span>
-              <span className="portada-fonetica">{MARCA.pronunciacion}</span>
-            </p>
-            <TituloCinetico lineas={PORTADA.titulo} />
-            <p className="portada-bajada entra" style={{ '--d': '900ms' }}>{PORTADA.bajada}</p>
-            <div className="portada-acciones entra" style={{ '--d': '1050ms' }}>
-              <a href="#agenda" className="boton-grande">{PORTADA.botonPrincipal}<span aria-hidden="true">↓</span></a>
-              <a href="#rediseno" className="enlace-subrayado">{PORTADA.botonSecundario}</a>
+          <div className="envoltura portada-grilla">
+            <div className="portada-texto">
+              <p className="portada-marca entra" style={{ '--d': '0ms' }}>
+                <span className="portada-palabra">{MARCA.nombre}</span>
+                <span className="portada-fonetica">{MARCA.pronunciacion}</span>
+              </p>
+              <TituloCinetico lineas={PORTADA.titulo} />
+              <p className="portada-bajada entra" style={{ '--d': '700ms' }}>{PORTADA.bajada}</p>
+              <div className="portada-acciones entra" style={{ '--d': '820ms' }}>
+                <a href="#agenda" className="boton-grande">
+                  {PORTADA.botonPrincipal} <span aria-hidden="true">↓</span>
+                </a>
+                <a href="#rediseno" className="enlace-subrayado">{PORTADA.botonSecundario}</a>
+              </div>
+              <ul className="portada-sellos entra" style={{ '--d': '940ms' }} aria-label="Lo que define a sdisegno">
+                {PORTADA.pastillas.map((p) => <li key={p}>{p}</li>)}
+                <li>{MARCA.ciudad}</li>
+              </ul>
             </div>
+            <figure className="portada-figura">
+              <img
+                src="/portada.webp"
+                srcSet="/portada-chica.webp 480w, /portada.webp 880w"
+                sizes="(max-width: 1000px) 80vw, 40vw"
+                alt="Collar de turquesas hecho a mano, puesto sobre una camisa de lino"
+                width="880"
+                height="1100"
+                fetchPriority="high"
+                decoding="async"
+              />
+              <svg className="portada-sello" viewBox="0 0 200 200" aria-hidden="true">
+                <defs>
+                  <path id="circulo-sello" d="M100 100 m-74 0 a74 74 0 1 1 148 0 a74 74 0 1 1 -148 0" />
+                </defs>
+                <circle cx="100" cy="100" r="100" />
+                <text>
+                  <textPath href="#circulo-sello" textLength="452" lengthAdjust="spacing">pieza única · hecho a mano en Mendoza · </textPath>
+                </text>
+                <text x="100" y="114" textAnchor="middle" className="portada-sello-centro">Sd</text>
+              </svg>
+            </figure>
           </div>
-          <figure className="portada-figura">
-            <img
-              src="/portada.webp"
-              srcSet="/portada-chica.webp 480w, /portada.webp 880w"
-              sizes="(max-width: 1000px) 80vw, 40vw"
-              alt="Collar de turquesas hecho a mano, puesto sobre una camisa de lino"
-              width="880"
-              height="1100"
-              fetchPriority="high"
-              decoding="async"
-            />
-            <svg className="portada-sello" viewBox="0 0 200 200" aria-hidden="true">
-              <defs>
-                <path id="circulo-sello" d="M100 100 m-74 0 a74 74 0 1 1 148 0 a74 74 0 1 1 -148 0" />
-              </defs>
-              <circle cx="100" cy="100" r="100" />
-              <text>
-                <textPath href="#circulo-sello" textLength="452" lengthAdjust="spacing">pieza única · hecho a mano en Mendoza · </textPath>
-              </text>
-              <text x="100" y="114" textAnchor="middle" className="portada-sello-centro">Sd</text>
-            </svg>
-          </figure>
-          <ul className="portada-sellos entra" style={{ '--d': '1300ms' }} aria-label="Lo que define a sdisegno">
-            {PORTADA.pastillas.map((p) => <li key={p}>{p}</li>)}
-            <li>{MARCA.ciudad}</li>
-          </ul>
         </section>
 
         {/* ── Ventana al taller: el video se abre con el scroll ── */}
