@@ -2,8 +2,6 @@ import { useCallback, useEffect, useRef, useState } from 'react'
 import { flushSync } from 'react-dom'
 import Icono from './components/Icono.jsx'
 import Logo from './components/Logo.jsx'
-import fotoPortada from './assets/portada.webp'
-import fotoPortadaChica from './assets/portada-chica.webp'
 import Coleccion from './components/Coleccion.jsx'
 import Detalle from './components/Detalle.jsx'
 import Reserva from './components/Reserva.jsx'
@@ -197,10 +195,10 @@ export default function App() {
               <a href="#rediseno" className="enlace-subrayado">{PORTADA.botonSecundario}</a>
             </div>
           </div>
-          <figure className="portada-figura entra" style={{ '--d': '300ms' }}>
+          <figure className="portada-figura">
             <img
-              src={fotoPortada}
-              srcSet={`${fotoPortadaChica} 480w, ${fotoPortada} 880w`}
+              src="/portada.webp"
+              srcSet="/portada-chica.webp 480w, /portada.webp 880w"
               sizes="(max-width: 1000px) 80vw, 40vw"
               alt="Collar de turquesas hecho a mano, puesto sobre una camisa de lino"
               width="880"

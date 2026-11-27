@@ -7,6 +7,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="description" content="" />
     <meta name="theme-color" content="#062553" />
+    <!-- La foto de portada se pide de entrada, en paralelo con el JS -->
+    <link rel="preload" as="image" href="/portada.webp" imagesrcset="/portada-chica.webp 480w, /portada.webp 880w" imagesizes="(max-width: 1000px) 80vw, 40vw" fetchpriority="high" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <!-- Tipografías: si las cambiás, actualizá también --titulos y --textos en src/index.css -->
