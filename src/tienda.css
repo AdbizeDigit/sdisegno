@@ -12,6 +12,7 @@
 }
 
 html {
+  overflow-x: clip;
   scroll-behavior: smooth;
   scroll-padding-top: 90px;
 }
@@ -260,7 +261,7 @@ video {
   display: flex;
   align-items: center;
   min-height: 100svh;
-  padding-block: 120px 72px;
+  padding-block: 104px 56px;
   overflow: hidden;
   background:
     radial-gradient(52vw 44vw at 82% 38%, color-mix(in srgb, var(--acento) 50%, transparent), transparent 70%),
@@ -268,9 +269,9 @@ video {
 }
 .portada-grilla {
   display: grid;
-  grid-template-columns: minmax(0, 1.15fr) minmax(0, 0.85fr);
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
   align-items: center;
-  gap: clamp(32px, 6vw, 96px);
+  gap: clamp(32px, 5vw, 80px);
 }
 .portada-texto {
   max-width: 640px;
@@ -373,25 +374,26 @@ video {
 .portada-figura {
   position: relative;
   justify-self: end;
-  width: min(100%, 440px, calc((100svh - 200px) * 0.8));
+  width: min(100%, 620px, calc((100svh - 140px) * 0.86));
   margin: 0;
 }
 .portada-figura img {
   display: block;
   width: 100%;
   height: auto;
-  aspect-ratio: 4 / 5;
+  aspect-ratio: 4 / 4.65;
   object-fit: cover;
-  border-radius: 999px 999px 28px 28px;
+  border-radius: 999px 999px 32px 32px;
   background: var(--linea);
 }
 .portada-sello {
   position: absolute;
   left: 0;
   bottom: 12%;
-  width: clamp(104px, 30%, 140px);
+  width: clamp(96px, 28%, 140px);
   height: auto;
-  transform: translateX(-42%);
+  --sello-x: -42%;
+  transform: translateX(var(--sello-x));
 }
 .portada-sello circle {
   fill: var(--resalte);
@@ -412,10 +414,10 @@ video {
 }
 @keyframes girar {
   from {
-    transform: translateX(-42%) rotate(0deg);
+    transform: translateX(var(--sello-x)) rotate(0deg);
   }
   to {
-    transform: translateX(-42%) rotate(360deg);
+    transform: translateX(var(--sello-x)) rotate(360deg);
   }
 }
 
@@ -536,6 +538,8 @@ video {
 .coleccion-ventana {
   overflow-x: auto;
   scroll-snap-type: x mandatory;
+  scroll-padding-inline: clamp(20px, 5vw, 72px);
+  overscroll-behavior-x: contain;
   scrollbar-width: none;
 }
 .coleccion-ventana::-webkit-scrollbar {
@@ -642,19 +646,22 @@ video {
 }
 .ficha-pie {
   display: flex;
+  flex-wrap: wrap;
   align-items: center;
   justify-content: space-between;
-  gap: 12px;
+  gap: 10px 12px;
   margin-top: 16px;
   padding-top: 14px;
   border-top: 1px solid var(--borde);
 }
 .ficha-precio {
+  white-space: nowrap;
   font-weight: 600;
   font-size: 15px;
   color: var(--primario);
 }
 .boton-cuenta {
+  white-space: nowrap;
   display: inline-flex;
   align-items: center;
   gap: 8px;
@@ -835,13 +842,17 @@ video {
 }
 
 /* ═══ Cinta ═════════════════════════════════════════════════ */
+/* La banda gira dentro de un contenedor que la recorta: no empuja la página hacia los costados */
 .cinta {
-  margin-block: clamp(60px, 10vh, 120px);
+  margin-block: clamp(40px, 8vh, 100px);
+  padding-block: 28px;
+  overflow: hidden;
+}
+.cinta-banda {
   padding-block: 22px;
   background: var(--acento);
   color: var(--primario);
-  overflow: hidden;
-  transform: rotate(-2deg) scale(1.04);
+  transform: rotate(-2deg) scale(1.06);
 }
 .cinta-pista {
   display: flex;
@@ -1108,6 +1119,8 @@ video {
   color: var(--primario);
 }
 .campo input {
+  width: 100%;
+  box-sizing: border-box;
   font: 400 16px var(--textos);
   color: var(--tinta);
   padding: 14px 16px;
@@ -1617,9 +1630,17 @@ video {
     grid-template-columns: 1fr;
   }
   .portada-figura {
-    justify-self: center;
-    width: min(78%, 360px);
-    margin-top: 8px;
+    justify-self: stretch;
+    width: 100%;
+    max-width: 480px;
+    margin: 8px auto 0;
+  }
+  .portada-figura img {
+    aspect-ratio: 4 / 4.4;
+  }
+  .portada-sello {
+    --sello-x: -10%;
+    bottom: 8%;
   }
   .coleccion-cabecera,
   .rediseno-grilla,
@@ -1645,6 +1666,39 @@ video {
   }
 }
 @media (max-width: 720px) {
+  .detalle-cerrar {
+    position: fixed;
+    top: 14px;
+    right: 14px;
+    z-index: 2;
+    box-shadow: 0 4px 14px color-mix(in srgb, var(--primario) 18%, transparent);
+  }
+  .carrito {
+    padding: 20px;
+  }
+  .carrito-cabecera h2 {
+    font-size: 36px;
+  }
+  .carrito-lista li {
+    grid-template-columns: 52px 1fr auto;
+    gap: 10px;
+  }
+  .carrito-lista img {
+    width: 52px;
+    height: 52px;
+  }
+  .carrito-nombre {
+    font-size: 19px;
+    line-height: 1.1;
+  }
+  .ficha-pie {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 10px;
+  }
+  .boton-cuenta {
+    justify-content: center;
+  }
   .pilar {
     grid-template-columns: 1fr;
     top: calc(84px + var(--n) * 14px);

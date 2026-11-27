@@ -313,10 +313,12 @@ export default function App() {
 
         {/* ── Cinta de frases ── */}
         <section className="cinta" aria-label="Frases de marca">
-          <div className="cinta-pista" aria-hidden="true">
-            {[...FRASES, ...FRASES].map((f, n) => (
-              <span key={n}>{f}<i className="cinta-cuenta" /></span>
-            ))}
+          <div className="cinta-banda" aria-hidden="true">
+            <div className="cinta-pista">
+              {[...FRASES, ...FRASES].map((f, n) => (
+                <span key={n}>{f}<i className="cinta-cuenta" /></span>
+              ))}
+            </div>
           </div>
           <p className="sr-only">{FRASES.join('. ')}</p>
         </section>
