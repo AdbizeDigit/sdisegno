@@ -148,63 +148,6 @@ video {
   background-position: right bottom;
 }
 
-/* ── Textura de papel y cursor ───────────────────────────── */
-.grano {
-  position: fixed;
-  inset: 0;
-  z-index: 90;
-  pointer-events: none;
-  opacity: 0.07;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23g)'/%3E%3C/svg%3E");
-}
-.cursor {
-  position: fixed;
-  top: 0;
-  left: 0;
-  z-index: 200;
-  width: 14px;
-  height: 14px;
-  margin: -7px 0 0 -7px;
-  pointer-events: none;
-  display: none;
-}
-.con-cursor .cursor {
-  display: block;
-}
-.cursor::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  border-radius: 50%;
-  background: var(--primario);
-  transition: transform 0.35s var(--curva), background 0.3s, border 0.3s;
-}
-.cursor span {
-  position: absolute;
-  inset: 0;
-  display: grid;
-  place-items: center;
-  font: 600 6px var(--textos);
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  color: var(--primario);
-  opacity: 0;
-  transition: opacity 0.2s;
-}
-.cursor.sobre::before {
-  transform: scale(3.4);
-  background: color-mix(in srgb, var(--acento) 70%, transparent);
-}
-.cursor.foto::before {
-  transform: scale(6);
-  background: var(--acento);
-}
-.cursor.foto span {
-  opacity: 1;
-}
-.cursor.oculto {
-  opacity: 0;
-}
 .cuenta-vuela {
   position: fixed;
   top: 0;
@@ -219,25 +162,24 @@ video {
   pointer-events: none;
 }
 
-/* ── El hilo: se dibuja con el scroll de toda la página ──── */
+/* ── El hilo: una línea que crece con el scroll ─────────── */
 .hilo {
   position: fixed;
   top: 0;
-  left: clamp(6px, 1.6vw, 28px);
+  left: clamp(10px, 1.8vw, 30px);
   z-index: 5;
-  width: 24px;
+  width: 1px;
   height: 100vh;
+  background: var(--borde);
   pointer-events: none;
   display: none;
 }
-.hilo path {
-  fill: none;
-  stroke: var(--primario);
-  stroke-width: 1.4;
-  vector-effect: non-scaling-stroke;
-  stroke-dasharray: 1;
-  stroke-dashoffset: 1;
-  opacity: 0.55;
+.hilo span {
+  display: block;
+  height: 100%;
+  background: var(--primario);
+  transform: scaleY(0);
+  transform-origin: top;
 }
 
 /* ── Barra flotante ──────────────────────────────────────── */
@@ -253,10 +195,9 @@ video {
   width: max-content;
   max-width: calc(100% - 24px);
   border-radius: 999px;
-  background: color-mix(in srgb, var(--fondo-claro) 82%, transparent);
+  background: var(--fondo-claro);
   border: 1px solid var(--borde);
-  box-shadow: 0 10px 40px color-mix(in srgb, var(--primario) 10%, transparent);
-  backdrop-filter: saturate(1.4) blur(14px);
+  box-shadow: 0 8px 24px color-mix(in srgb, var(--primario) 8%, transparent);
   transform: translateX(-50%);
   transition: transform 0.5s var(--curva), opacity 0.4s;
 }
@@ -437,64 +378,56 @@ video {
   background: color-mix(in srgb, var(--fondo-claro) 60%, transparent);
 }
 
-/* El collar */
-.collar {
+/* Foto en arco y sello giratorio */
+.portada-figura {
   position: relative;
   z-index: 1;
-  align-self: start;
-  width: min(100%, 560px);
-  margin-top: -110px;
   justify-self: center;
-  --px: 0;
+  width: min(100%, 440px, calc((100svh - 230px) * 0.8));
+  margin: 0;
 }
-.collar svg {
+.portada-figura img {
   display: block;
   width: 100%;
   height: auto;
-  overflow: visible;
-  transform: rotate(calc(var(--px) * -5deg));
-  transform-origin: 50% 0;
-  transition: transform 1.6s var(--curva);
+  aspect-ratio: 4 / 5;
+  object-fit: cover;
+  border-radius: 999px 999px 28px 28px;
+  background: var(--linea);
 }
-.collar-mece {
-  transform-box: view-box;
-  transform-origin: 260px 20px;
-  animation: mecer 7s var(--curva-suave) infinite alternate;
+.portada-figura figcaption {
+  margin-top: 14px;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--gris);
+  text-align: center;
 }
-@keyframes mecer {
-  from {
-    transform: rotate(-2.2deg);
-  }
+.portada-sello {
+  position: absolute;
+  left: -64px;
+  bottom: 56px;
+  width: 150px;
+  height: 150px;
+  animation: girar 22s linear infinite;
+}
+.portada-sello circle {
+  fill: var(--resalte);
+}
+.portada-sello text {
+  fill: #fff;
+  font: 600 13px var(--textos);
+  text-transform: uppercase;
+}
+.portada-sello .portada-sello-centro {
+  font: italic 600 44px var(--titulos);
+  letter-spacing: 0;
+  text-transform: none;
+}
+@keyframes girar {
   to {
-    transform: rotate(2.2deg);
-  }
-}
-.collar-hilo,
-.collar-hilo-dije {
-  fill: none;
-  stroke: var(--primario);
-  stroke-width: 1.6;
-  stroke-linecap: round;
-}
-.collar-hilo {
-  stroke-dasharray: 1;
-  stroke-dashoffset: 1;
-  animation: dibujar 1.6s var(--curva) 0.1s forwards;
-}
-@keyframes dibujar {
-  to {
-    stroke-dashoffset: 0;
-  }
-}
-.cuenta {
-  opacity: 0;
-  transform: translateY(-70px);
-  animation: caer 0.9s cubic-bezier(0.34, 1.56, 0.64, 1) calc(500ms + var(--i) * 55ms) forwards;
-}
-@keyframes caer {
-  to {
-    opacity: 1;
-    transform: none;
+    transform: rotate(360deg);
   }
 }
 
@@ -517,6 +450,8 @@ video {
   position: absolute;
   inset: 0;
   background: var(--primario);
+  border-radius: 28px;
+  overflow: hidden;
 }
 .ventana-marco::after {
   content: '';
@@ -801,7 +736,7 @@ video {
   border-radius: 40px;
   background: var(--fondo-claro);
   border: 1px solid var(--borde);
-  box-shadow: 0 -20px 60px color-mix(in srgb, var(--primario) 8%, transparent);
+  box-shadow: 0 -6px 20px color-mix(in srgb, var(--primario) 6%, transparent);
 }
 .pilar-lima {
   background: var(--terciario);
@@ -1536,13 +1471,13 @@ video {
 @supports (animation-timeline: view()) {
   @media (prefers-reduced-motion: no-preference) {
     /* Hilo de la página */
-    .hilo path {
-      animation: trazar linear both;
+    .hilo span {
+      animation: crecer linear both;
       animation-timeline: scroll(root);
     }
-    @keyframes trazar {
+    @keyframes crecer {
       to {
-        stroke-dashoffset: 0;
+        transform: scaleY(1);
       }
     }
 
@@ -1567,16 +1502,15 @@ video {
       height: 240vh;
     }
     .ventana-marco {
+      will-change: transform;
       animation: abrir-ventana linear both;
       animation-timeline: --ventana;
       animation-range: contain 0% contain 55%;
     }
     @keyframes abrir-ventana {
       from {
-        clip-path: inset(22% 34% 22% 34% round 999px);
-      }
-      to {
-        clip-path: inset(0 0 0 0 round 0);
+        transform: scale(0.42);
+        opacity: 0.6;
       }
     }
     .ventana-texto {
@@ -1593,7 +1527,7 @@ video {
     }
     @keyframes tenir {
       from {
-        color: color-mix(in srgb, var(--primario) 14%, transparent);
+        opacity: 0.14;
       }
     }
 
@@ -1678,31 +1612,13 @@ video {
         transform: translateY(6%);
       }
     }
-    .rediseno {
-      animation: expandir linear both;
-      animation-timeline: view();
-      animation-range: entry 0% entry 60%;
-    }
-    @keyframes expandir {
-      from {
-        transform: scale(0.92);
-        border-radius: 120px;
-      }
-    }
+
 
     /* Historia: la foto se revela de abajo hacia arriba */
-    .historia-foto {
-      animation: revelar linear both;
+    .historia-foto img {
+      animation: acercar linear both;
       animation-timeline: view();
-      animation-range: entry 10% cover 45%;
-    }
-    @keyframes revelar {
-      from {
-        clip-path: inset(100% 0 0 0 round 999px 999px 32px 32px);
-      }
-      to {
-        clip-path: inset(0 0 0 0 round 999px 999px 32px 32px);
-      }
+      animation-range: entry 0% cover 50%;
     }
 
     /* Pie: las letras suben una por una */
@@ -1737,13 +1653,14 @@ video {
     padding-top: 100px;
     padding-bottom: 130px;
   }
-  .collar {
-    position: absolute;
-    top: 0;
-    right: -14%;
-    width: 70%;
-    margin: 0;
-    opacity: 0.55;
+  .portada-figura {
+    width: min(78%, 380px);
+    margin-top: 40px;
+  }
+  .portada-sello {
+    left: -40px;
+    width: 120px;
+    height: 120px;
   }
   .coleccion-cabecera,
   .rediseno-grilla,
@@ -1787,11 +1704,6 @@ video {
   .portada-sellos {
     justify-content: flex-start;
   }
-  .collar {
-    right: -30%;
-    width: 95%;
-    opacity: 0.35;
-  }
   .barra {
     gap: 10px;
   }
@@ -1806,43 +1718,14 @@ video {
     scroll-behavior: auto;
   }
   .sube,
-  .entra,
-  .cuenta,
-  .collar-hilo {
+  .entra {
     animation: none;
     opacity: 1;
     transform: none;
-    stroke-dashoffset: 0;
   }
-  .collar-mece,
-  .cinta-pista {
+  .cinta-pista,
+  .portada-sello {
     animation: none;
   }
-  .collar svg {
-    transform: none;
-  }
 }
 
-/* Sin cursor propio en campos de texto */
-.con-cursor,
-.con-cursor a,
-.con-cursor button,
-.con-cursor label {
-  cursor: none;
-}
-.con-cursor input,
-.con-cursor textarea {
-  cursor: text;
-}
-
-/* Detalle: la foto llena su columna en pantallas grandes */
-@media (min-width: 1001px) {
-  .detalle-foto {
-    position: relative;
-  }
-  .detalle-foto img {
-    position: absolute;
-    inset: 0;
-    max-height: none;
-  }
-}

@@ -104,20 +104,21 @@ app.get('/fotos/:archivo', a(async (req, res) => {
   const foto = await almacen.leerFoto(archivo)
   if (!foto) return res.status(404).end()
   res.setHeader('Content-Type', foto.tipo)
-  res.setHeader('Cache-Control', 'public, max-age=604800, immutable')
+  res.setHeader('Cache-Control', 'public, max-age=31536000, s-maxage=31536000, immutable')
   foto.stream.pipe(res)
 }))
 
 // Tienda (público)
 app.get('/api/productos', a(async (req, res) => {
   const productos = (await leerProductos()).filter((p) => p.activo)
-  res.setHeader('Cache-Control', 'no-store')
+  // El CDN de Vercel guarda la lista 60 s: la tienda no espera a la base en cada visita.
+  res.setHeader('Cache-Control', 'public, max-age=0, s-maxage=60, stale-while-revalidate=600')
   res.json(productos.map(publico))
 }))
 
 app.get('/api/ajustes', a(async (req, res) => {
   const { whatsapp = '' } = await leerAjustes()
-  res.setHeader('Cache-Control', 'no-store')
+  res.setHeader('Cache-Control', 'public, max-age=0, s-maxage=60, stale-while-revalidate=600')
   res.json({ whatsapp })
 }))
 

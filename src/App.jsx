@@ -2,10 +2,10 @@ import { useCallback, useEffect, useRef, useState } from 'react'
 import { flushSync } from 'react-dom'
 import Icono from './components/Icono.jsx'
 import Logo from './components/Logo.jsx'
-import Collar from './components/Collar.jsx'
+import fotoPortada from './assets/portada.webp'
+import fotoPortadaChica from './assets/portada-chica.webp'
 import Coleccion from './components/Coleccion.jsx'
 import Detalle from './components/Detalle.jsx'
-import Cursor from './components/Cursor.jsx'
 import Reserva from './components/Reserva.jsx'
 import Carrito from './components/Carrito.jsx'
 import VideoFondo from './components/VideoFondo.jsx'
@@ -146,13 +146,8 @@ export default function App() {
 
   return (
     <>
-      <Cursor />
-      <div className="grano" aria-hidden="true" />
-
-      {/* Hilo que se dibuja con el scroll */}
-      <svg className="hilo" viewBox="0 0 40 1000" preserveAspectRatio="none" aria-hidden="true">
-        <path d="M20 0 C 36 120, 4 240, 20 360 S 36 600, 20 720 S 4 900, 20 1000" pathLength="1" />
-      </svg>
+      {/* Hilo: una línea que crece con el scroll (solo transform, muy liviano) */}
+      <div className="hilo" aria-hidden="true"><span /></div>
 
       <header className={`barra ${barraOculta ? 'oculta' : ''}`}>
         <a href="#inicio" className="barra-logo" aria-label={`${MARCA.nombre}, inicio`}>
@@ -185,7 +180,28 @@ export default function App() {
               <a href="#rediseno" className="enlace-subrayado">{PORTADA.botonSecundario}</a>
             </div>
           </div>
-          <Collar />
+          <figure className="portada-figura entra" style={{ '--d': '300ms' }}>
+            <img
+              src={fotoPortada}
+              srcSet={`${fotoPortadaChica} 480w, ${fotoPortada} 880w`}
+              sizes="(max-width: 1000px) 80vw, 40vw"
+              alt="Collar de turquesas hecho a mano, puesto sobre una camisa de lino"
+              width="880"
+              height="1100"
+              fetchPriority="high"
+              decoding="async"
+            />
+            <svg className="portada-sello" viewBox="0 0 200 200" aria-hidden="true">
+              <defs>
+                <path id="circulo-sello" d="M100 100 m-74 0 a74 74 0 1 1 148 0 a74 74 0 1 1 -148 0" />
+              </defs>
+              <circle cx="100" cy="100" r="100" />
+              <text>
+                <textPath href="#circulo-sello" textLength="452" lengthAdjust="spacing">pieza única · hecho a mano en Mendoza · </textPath>
+              </text>
+              <text x="100" y="114" textAnchor="middle" className="portada-sello-centro">Sd</text>
+            </svg>
+          </figure>
           <ul className="portada-sellos entra" style={{ '--d': '1300ms' }} aria-label="Lo que define a sdisegno">
             {PORTADA.pastillas.map((p) => <li key={p}>{p}</li>)}
             <li>{MARCA.ciudad}</li>

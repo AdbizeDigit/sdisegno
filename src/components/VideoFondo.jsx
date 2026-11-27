@@ -28,7 +28,7 @@ export default function VideoFondo({ src, poster, className = '' }) {
       muted
       loop
       playsInline
-      preload="metadata"
+      preload="none"
       aria-hidden="true"
     />
   )
