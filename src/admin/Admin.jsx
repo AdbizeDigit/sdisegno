@@ -50,6 +50,23 @@ function Entrar({ onEntrar }) {
   )
 }
 
+// Achica la foto en el navegador antes de subirla (máx. 1600 px, WebP) para ocupar poco espacio.
+async function achicarFoto(archivo, lado = 1600) {
+  try {
+    const imagen = await createImageBitmap(archivo)
+    const escala = Math.min(1, lado / Math.max(imagen.width, imagen.height))
+    const lienzo = document.createElement('canvas')
+    lienzo.width = Math.round(imagen.width * escala)
+    lienzo.height = Math.round(imagen.height * escala)
+    lienzo.getContext('2d').drawImage(imagen, 0, 0, lienzo.width, lienzo.height)
+    const blob = await new Promise((r) => lienzo.toBlob(r, 'image/webp', 0.82))
+    if (!blob || blob.type !== 'image/webp' || blob.size >= archivo.size) return archivo
+    return new File([blob], archivo.name.replace(/\.\w+$/, '') + '.webp', { type: 'image/webp' })
+  } catch {
+    return archivo
+  }
+}
+
 // ── Formulario de pieza ──────────────────────────────────────
 function FormularioPieza({ inicial, onGuardado, onCancelar }) {
   const [pieza, setPieza] = useState(inicial)
@@ -70,7 +87,7 @@ function FormularioPieza({ inicial, onGuardado, onCancelar }) {
     setSubiendo(true)
     setError('')
     try {
-      const { imagen } = await api.subirFoto(archivo)
+      const { imagen } = await api.subirFoto(await achicarFoto(archivo))
       setPieza((p) => ({ ...p, imagen }))
     } catch (err) {
       setError(err.message)

@@ -31,3 +31,5 @@ server/fotos
 # Vercel
 .vercel
 .env*.local
+
+.vercel

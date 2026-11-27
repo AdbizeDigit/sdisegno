@@ -26,8 +26,9 @@ npm run dev      # web en http://localhost:5176 + servidor en el puerto 3001
 ## Publicado en Vercel
 
 - La web es estática (Vite) y la API corre como función de Vercel (`api/index.js`, que usa `server/app.js`).
-- Los datos y las fotos se guardan en **Vercel Blob**, en un almacén privado. Las fotos se sirven por `/fotos/...` a través de la API.
-- Variables de entorno en Vercel: `ADMIN_PASSWORD`, `SESSION_SECRET` y `BLOB_READ_WRITE_TOKEN` (esta la agrega Vercel al conectar el almacén).
+- Los datos y las fotos se guardan en **Neon Postgres** (plan Free, región São Paulo), en las tablas `sd_datos` y `sd_fotos`. Las fotos se sirven por `/fotos/...` a través de la API y el panel las achica antes de subirlas.
+- Variables de entorno en Vercel: `ADMIN_PASSWORD`, `SESSION_SECRET` y `DATABASE_URL` (esta la agrega Vercel al conectar Neon).
+- Para cambiar la contraseña del panel: Vercel → proyecto sdisegno → Settings → Environment Variables → `ADMIN_PASSWORD`, y volver a publicar.
 - Cada push a `main` en GitHub publica una versión nueva.
 - En el primer arranque se cargan 4 piezas de ejemplo (`server/semilla.js`). Editalas o borralas desde el panel.
 
@@ -39,4 +40,4 @@ npm run build
 npm start        # sirve la web y el panel en el mismo puerto (PORT del .env)
 ```
 
-Sin `BLOB_READ_WRITE_TOKEN` guarda todo en `server/datos` y `server/fotos`: hace falta disco persistente y copias de esas carpetas.
+Sin `DATABASE_URL` guarda todo en `server/datos` y `server/fotos`: hace falta disco persistente y copias de esas carpetas.
