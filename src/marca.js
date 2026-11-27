@@ -143,3 +143,19 @@ export const TIPOS_RESERVA = [
   { id: 'rediseno', nombre: 'Rediseñar un accesorio', mensaje: 'Quiero rediseñar un accesorio que tengo' },
   { id: 'regalo', nombre: 'Un regalo', mensaje: 'Estoy buscando un regalo' },
 ]
+
+// ── Rediseño 2026: textos de las secciones nuevas ────────────
+export const MANIFIESTO =
+  'Cada pieza es única porque cada persona lo es. Elijo cada piedra, cada vidrio y cada cierre de acero para que encuentres algo que te represente. Algo irrepetible.'
+
+export const VENTANA = {
+  etiqueta: 'El taller',
+  titulo: 'Hecho a mano, una sola vez.',
+  texto: 'Diseño industrial aplicado a cada cuenta, cada cierre y cada largo.',
+}
+
+export const PASOS_REDISENO = [
+  { numero: '01', titulo: 'Traés', texto: 'Ese collar que ya no usás, la pulsera rota, las cuentas sueltas.' },
+  { numero: '02', titulo: 'Desarmo', texto: 'Separo las piezas y elijo cuáles merecen una segunda vida.' },
+  { numero: '03', titulo: 'Rediseño', texto: 'Armo una pieza nueva, tuya, que no existía.' },
+]
